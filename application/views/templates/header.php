@@ -49,14 +49,15 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http:\\localhost/projetos/sgd/">Project Gus</a>
+            <a class="navbar-brand" href="<?=base_url() ?>">Projeto Wales </a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="#">Site</a></li>
               <li><a href="#about">Email</a></li>
                 <?php
-              if ($this->session->has_userdata('usuario')){
+              if ($this->aauth->is_loggedin()){
+                echo '<li><a href="'.base_url('index.php/fornecedores').'">Fornecedores</a></li>';
               echo '<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -75,7 +76,7 @@
               <li><a "> '.date("d/m/Y").'</a></li>
 
               <li><a >'.$this->session->nome.'</a></li>
-                <li><a href="http://localhost/projetos/sgd/index.php/login/logout">Sair</a></li>';
+                <li><a href="'.base_url('index.php/login/logout').'">Sair</a></li>';
               }
               ?>
 

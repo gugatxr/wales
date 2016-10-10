@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |   ['login_attempts']                  The table which contains login attempts
 |
 |   ['remember']                        Remember time (in relative format) elapsed after connecting and automatic LogOut for usage with Cookies
-|                                       Relative Format (e.g. '+ 1 week', '+ 1 month', '+ first day of next month') 
+|                                       Relative Format (e.g. '+ 1 week', '+ 1 month', '+ first day of next month')
 |                                       for details see http://php.net/manual/de/datetime.formats.relative.php
 |
 |   ['max']                             Maximum char long for Password
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |   ['totp_active']                     Enables the Time-based One-time Password Algorithm
 |   ['totp_only_on_ip_change']          TOTP only on IP Change
 |   ['totp_reset_over_reset_password']  TOTP reset over reset Password
-|   ['totp_two_step_login']             Enables TOTP two step login 
+|   ['totp_two_step_login']             Enables TOTP two step login
 |   ['totp_two_step_login_redirect']    Redirect path to TOTP Verification page used by control() & is_allowed()
 |
 |   ['max_login_attempt']               Login attempts time interval (default 10 times in one hour)
@@ -68,15 +68,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |   ['hash']                            Name of selected hashing algorithm (e.g. "md5", "sha256", "haval160,4", etc..)
 |                                       Please, run hash_algos() for know your all supported algorithms
 |   ['use_password_hash']               Enables to use PHP's own password_hash() function with BCrypt, needs PHP5.5 or higher
-|   ['password_hash_algo']              password_hash algorithm (PASSWORD_DEFAULT, PASSWORD_BCRYPT) 
+|   ['password_hash_algo']              password_hash algorithm (PASSWORD_DEFAULT, PASSWORD_BCRYPT)
 |                                       for details see http://php.net/manual/de/password.constants.php
-|   ['password_hash_options']           password_hash options array 
+|   ['password_hash_options']           password_hash options array
 |                                       for details see http://php.net/manual/en/function.password-hash.php
 |
 |   ['pm_encryption']                   Enables PM Encryption, needs configured CI Encryption Class.
 |                                       for details see: http://www.codeigniter.com/userguide2/libraries/encryption.html
 |   ['pm_cleanup_max_age']              PM Cleanup max age (in relative format), PM's are older than max age get deleted with 'cleanup_pms()'
-|                                       Relative Format (e.g. '2 week', '1 month') 
+|                                       Relative Format (e.g. '2 week', '1 month')
 |                                       for details see http://php.net/manual/de/datetime.formats.relative.php
 |
 */

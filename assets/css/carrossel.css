@@ -1,0 +1,23 @@
+#carrossel {
+    width: 800px;
+}
+#carrossel img {
+    width: 230px;
+    height: 120px;
+    padding: 0px;
+    margin: 0 2px;
+}
+.prev {
+    float: left;
+    width: 20px;
+    height: 126px;
+    border: 0;
+    background: transparent url(../imagens/carrossel_botao_voltar.png) no-repeat;
+}
+.next {
+    float: right;
+    width: 20px;
+    height: 126px;
+    border: 0;
+    background: transparent url(../imagens/carrossel_botao_avancar.png) no-repeat;
+}

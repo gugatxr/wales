@@ -5,24 +5,28 @@
       {
           parent::__construct();
           $this->load->model('usuarios_model');
-          if ($this->session->has_userdata('usuario')) {
+          if (!$this->aauth->is_loggedin()) {
             $this->session->mark_as_temp('usuario', 600);
-          }else {
-            redirect('login');
           }
       }
       public function index()
       {
+        $this->load->library('pagination');
         $data['cabecalho'] = '<div class="page-header">
         <h1>Gerenciamento <small> Usuários</small></h1>
         </div>';
 
-        $data['title'] = 'Gerenciador usuários';
+        $data['title']    = 'Gerenciador usuários';
+        // retorna os usuarios.
+        // return array objeto
         $data['usuarios'] = $this->usuarios_model->get_usuarios();
+        // var_dump($data['usuarios']);
+        // exit();
+
 
         $this->load->view('templates/header', $data);
         $this->load->view('usuarios/index', $data);
-        $this->load->view('templates/footer');
+        // $this->load->view('templates/footer');
       }
 
       public function excluir()
@@ -32,7 +36,8 @@
             $data['excluir'] = '<div class="alert alert-danger" role="alert">Usuário administrador não pode ser excluído</div>';
         }else
         {
-            $resultado = $this->usuarios_model->excluir();
+            $id_usuario = $this->input->get_post('id');
+            $resultado  = $this->aauth->delete_user($id_usuario);
             if($resultado === TRUE)
             {
               $data['excluir'] = '<div class="alert alert-success " role="alert">Excluído com sucesso</div>';
@@ -57,37 +62,34 @@
       function adicionar(){
 
         $data['title'] = 'Adicionar usuários';
-        $permissoes = $this->permissoes->prepara_permissoes($this->session->permissoes);
-        if ($permissoes['usuarios']['inserir']) {
             $this->load->helper('form');
             $this->load->library('form_validation');
 
-            $data['permissoes'] = $this->usuarios_model->get_permissoes();
-
             $this->form_validation->set_rules('nome', 'Nome', 'required');
-            $this->form_validation->set_rules('usuario', 'Usuário', 'required');
             $this->form_validation->set_rules('senha', 'Senha', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
-            $this->form_validation->set_rules('id_permissoes', 'Permissão', 'required');
+            $this->form_validation->set_rules('permissao', 'Permissão', 'required');
 
             if($this->form_validation->run() === false)
             {
+              //recupera a lista de groupos de permissões
+              $data['permissoes'] = $this->aauth->list_groups();
+
               $this->load->view('templates/header', $data);
-              $this->load->view('usuarios/adicionar');
+              $this->load->view('usuarios/adicionar', $data);
               $this->load->view('templates/footer');
             }else
             {
+                //recupera a lista de groupos de permissões
+                $data['permissoes'] = $this->aauth->list_groups();
 
                 $this->usuarios_model->set_usuarios();
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('usuarios/adicionar');
                 $this->load->view('templates/footer');
-          }}else{
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/permissao', $data);
-            $this->load->view('templates/footer');
           }
+
         }
 
 
