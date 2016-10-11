@@ -1,206 +1,42 @@
 
-CREATE DATABASE IF NOT EXISTS gerenciamento_comercial DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS wales DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 
-USE gerenciamento_comercial ;
+USE wales ;
 
 
 -- -----------------------------------------------------
 -- Modulo Acesso
 -- -----------------------------------------------------
 
-/*
-	Aauth SQL Table Structure
-*/
+
+CREATE TABLE IF NOT EXISTS permissoes(
+	id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(45),
+    permissao TEXT,
+    
+    PRIMARY KEY(id)
+)DEFAULT CHARACTER SET = utf8;
 
 
-SET FOREIGN_KEY_CHECKS=0;
+CREATE TABLE IF NOT EXISTS usuarios(
+	id INT(10) AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(45),
+    usuario VARCHAR(45),
+    email VARCHAR(45),
+    senha TEXT,
+    id_permissao INT,
+    PRIMARY KEY(id),
+    
+    CONSTRAINT fk_usuarios_permissoess FOREIGN KEY (id_permissao) REFERENCES permissoes (id)
+)DEFAULT CHARACTER SET = utf8;
 
-
-
--- ----------------------------
--- Table structure for `aauth_groups`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_groups`;
-CREATE TABLE `aauth_groups` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100),
-  `definition` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_groups
--- ----------------------------
-INSERT INTO `aauth_groups` VALUES ('1', 'Admin', 'Super Admin Group');
-INSERT INTO `aauth_groups` VALUES ('2', 'Public', 'Public Access Group');
-INSERT INTO `aauth_groups` VALUES ('3', 'Default', 'Default Access Group');
-
--- ----------------------------
--- Table structure for `aauth_perms`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_perms`;
-CREATE TABLE `aauth_perms` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100),
-  `definition` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_perms
--- ----------------------------
-
--- ----------------------------
--- Table structure for `aauth_perm_to_group`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_perm_to_group`;
-CREATE TABLE `aauth_perm_to_group` (
-  `perm_id` int(11) unsigned NOT NULL,
-  `group_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`perm_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_perm_to_group
--- ----------------------------
-
--- ----------------------------
--- Table structure for `aauth_perm_to_user`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_perm_to_user`;
-CREATE TABLE `aauth_perm_to_user` (
-  `perm_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`perm_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_perm_to_user
--- ----------------------------
-
--- ----------------------------
--- Table structure for `aauth_pms`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_pms`;
-CREATE TABLE `aauth_pms` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) unsigned NOT NULL,
-  `receiver_id` int(11) unsigned NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `message` text,
-  `date_sent` datetime DEFAULT NULL,
-  `date_read` datetime DEFAULT NULL,
-  `pm_deleted_sender` int(1) DEFAULT NULL,
-  `pm_deleted_receiver` int(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `full_index` (`id`,`sender_id`,`receiver_id`,`date_read`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_pms
--- ----------------------------
-
--- ----------------------------
--- Table structure for `aauth_users`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_users`;
-CREATE TABLE `aauth_users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) COLLATE utf8_general_ci NOT NULL,
-  `pass` varchar(64) COLLATE utf8_general_ci NOT NULL,
-  `username` varchar(100) COLLATE utf8_general_ci,
-  `banned` tinyint(1) DEFAULT '0',
-  `last_login` datetime DEFAULT NULL,
-  `last_activity` datetime DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
-  `forgot_exp` text COLLATE utf8_general_ci,
-  `remember_time` datetime DEFAULT NULL,
-  `remember_exp` text COLLATE utf8_general_ci,
-  `verification_code` text COLLATE utf8_general_ci,
-  `totp_secret` varchar(16) COLLATE utf8_general_ci DEFAULT NULL,
-  `ip_address` text COLLATE utf8_general_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- ----------------------------
--- Records of aauth_users
--- ----------------------------
-INSERT INTO `aauth_users` VALUES ('1', 'admin@example.com', 'dd5073c93fb477a167fd69072e95455834acd93df8fed41a2c468c45b394bfe3', 'Admin', '0', null, null, null, null, null, null, null, null, '0');
-
--- ----------------------------
--- Table structure for `aauth_user_to_group`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_user_to_group`;
-CREATE TABLE `aauth_user_to_group` (
-  `user_id` int(11) unsigned NOT NULL,
-  `group_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_user_to_group
--- ----------------------------
-INSERT INTO `aauth_user_to_group` VALUES ('1', '1');
-INSERT INTO `aauth_user_to_group` VALUES ('1', '3');
-
--- ----------------------------
--- Table structure for `aauth_user_variables`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_user_variables`;
-CREATE TABLE `aauth_user_variables` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
-  `data_key` varchar(100) NOT NULL,
-  `value` text,
-  PRIMARY KEY (`id`),
-  KEY `user_id_index` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_user_variables
--- ----------------------------
-
--- ----------------------------
--- Table structure for `aauth_group_to_group`
--- ----------------------------
-DROP TABLE IF EXISTS `aauth_group_to_group`;
-CREATE TABLE `aauth_group_to_group` (
-  `group_id` int(11) unsigned NOT NULL,
-  `subgroup_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`group_id`,`subgroup_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of aauth_group_to_group
--- ----------------------------
-
--- ----------------------------
--- Table structure for `aauth_login_attempts`
--- ----------------------------
-
-CREATE TABLE IF NOT EXISTS `aauth_login_attempts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip_address` varchar(39) DEFAULT '0',
-  `timestamp` datetime DEFAULT NULL,
-  `login_attempts` tinyint(2) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of aauth_login_attempts
--- ----------------------------
-
-
--- -----------------------------------------------------
--- Modulo Pessoal
--- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Tabela bairros
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS bairros (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  descricao VARCHAR(50) NOT NULL,
+  descricao VARCHAR(50) NOT NULL UNIQUE KEY,
   PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
 
@@ -209,7 +45,7 @@ CREATE TABLE IF NOT EXISTS bairros (
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS tipo_logradouros (
     id INT(11) NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(50) NOT NULL,
+    descricao VARCHAR(50) NOT NULL UNIQUE KEY,
     abreviacao VARCHAR(10) NULL,
     PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
@@ -219,7 +55,7 @@ CREATE TABLE IF NOT EXISTS bairros (
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS tipos (
     id INT(11) NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(50) NOT NULL,
+    descricao VARCHAR(50) NOT NULL UNIQUE KEY,
     PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
 
@@ -228,7 +64,7 @@ CREATE TABLE IF NOT EXISTS bairros (
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS ceps (
     id INT(11) NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(7) NULL,
+    descricao VARCHAR(8) NULL UNIQUE KEY,
     PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
 
@@ -237,7 +73,7 @@ CREATE TABLE IF NOT EXISTS bairros (
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS logradouros (
     id INT(11) NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(45) NULL,
+    descricao VARCHAR(45) NULL UNIQUE KEY,
     PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
 
@@ -248,7 +84,7 @@ CREATE TABLE IF NOT EXISTS bairros (
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS estados (
     id INT(10) NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(50) NOT NULL,
+    descricao VARCHAR(50) NOT NULL UNIQUE KEY,
     sigla VARCHAR(4) NOT NULL DEFAULT 'rs',
     PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
@@ -258,7 +94,7 @@ CREATE TABLE IF NOT EXISTS bairros (
   -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS cidades (
     id INT(11) NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(50) NOT NULL,
+    descricao VARCHAR(50) NOT NULL UNIQUE KEY,
     PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
   -- -----------------------------------------------------
@@ -312,14 +148,14 @@ CREATE TABLE IF NOT EXISTS historicos (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS contas (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  descricao VARCHAR(45) NOT NULL,
+  descricao VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
 
   -- -----------------------------------------------------
-  -- Tabela caixa
+  -- Tabela caixas
   -- -----------------------------------------------------
-  CREATE TABLE IF NOT EXISTS caixa (
+  CREATE TABLE IF NOT EXISTS caixas (
     id INT(11) NOT NULL AUTO_INCREMENT,
     data DATE,
     id_historico INT(11),
@@ -418,8 +254,17 @@ CREATE TABLE IF NOT EXISTS transacao_produtos (
   CONSTRAINT fk_compras_produtos_compra FOREIGN KEY (idtransacao) REFERENCES transacoes (id)
 )DEFAULT CHARACTER SET = utf8;
 
+-- Cria a view fornecedores
+CREATE VIEW fornecedores AS SELECT * FROM pessoas WHERE id_tipo = 1;
+CREATE VIEW cliente AS SELECT * FROM pessoas WHERE id_tipo = 2;
+CREATE VIEW funcionario AS SELECT * FROM pessoas WHERE id_tipo = 3;
 
+CREATE VIEW caixa AS SELECT DATE_FORMAT(ca.data, '%e/%c/%Y') as data, h.descricao as historico, ca.valor, REPLACE(REPLACE(ca.liquidado, 's','Sim' ),'n',' Não')
+ as liquidado, c.descricao as conta, REPLACE(REPLACE(ca.tipo, 'd','Despesa' ),'r',' Receita') as tipo FROM caixa ca 
+INNER JOIN historicos h ON (h.id=ca.id_historico)
+INNER JOIN contas c ON (c.id=ca.id_conta);
 
+CREATE VIEW total_caixa AS SELECT SUM(valor) FROM caixa;
 
 
 INSERT INTO bairros (descricao) VALUES('Centro');
