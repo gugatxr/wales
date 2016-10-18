@@ -1,6 +1,6 @@
 <?php
 
-class Home extends CI_Controller
+class Principal extends CI_Controller
 {
     public function __CONSTRUCT()
     {
@@ -10,8 +10,8 @@ class Home extends CI_Controller
     {
         $data['title'] = 'Loja Wales';
         $this->load->view('templates/header', $data);
-        $this->load->view('templates/nav');
+        $this->load->view('templates/nav-home');
         // $this->load->view('home', $data);
-        // $this->load->view('templates/footer');
+        $this->load->view('templates/footer');
     }
 }

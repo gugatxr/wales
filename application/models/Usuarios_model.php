@@ -6,19 +6,17 @@
       $this->load->database();
     }
     public function get_usuarios($usuario = FALSE){
-      $query = $this->db->query('SELECT u.id, u.email, u.username as nome, p.name as permissao FROM aauth_users u
-              INNER JOIN aauth_user_to_group g ON (u.id= g.user_id)
-              INNER JOIN aauth_groups p ON (p.id=g.group_id)  ');
+      $query = $this->db->query('SELECT u.id, u.email, u.usuario, p.descricao as permissao FROM usuarios u
+              INNER JOIN permissoes p ON (p.id=u.id_permissao)  ');
       return $query->result_array();
     }
     public function get_one_usuario(){
       $query = $this->db->query('SELECT u.id, u.email, u.username as nome, p.name as permissao FROM aauth_users u
               INNER JOIN aauth_user_to_group g ON (u.id= g.user_id)
-              INNER JOIN aauth_groups p ON (p.id=g.group_id) 
+              INNER JOIN aauth_groups p ON (p.id=g.group_id)
         WHERE u.id = '.$this->input->get_post('id'));
       return $query->result_array();
     }
-
     public function set_usuarios(){
       //função para criar usuario
       // @var email string,

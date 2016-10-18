@@ -1,7 +1,7 @@
 
     <footer class="footer">
       <div class="container">
-        <p class="text-muted"> iN informática &copy; <?=date("Y")?></p>
+        <p class="text-muted"> Projeto Wales &copy; <?=date("Y")?></p>
       </div>
     </nav>
     <!-- jQuery -->

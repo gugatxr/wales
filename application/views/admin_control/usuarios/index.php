@@ -21,18 +21,18 @@
          $vJavascript="javascript: if (confirm('Confirma a exclusão do registro?'))parent.conteudo.location.href='".site_url('usuarios/excluir')."?id=".$dado['id']."'";
          echo '<div class="row">
                 <tr>
-                 <td>'.$dado['nome'].'</td>
+                 <td>'.$dado['usuario'].'</td>
                  <td>'.$dado['email'].'</td>
                  <td>'.$dado['permissao'].'</td>
                  <td>'.
-                 '<a href="'.site_url('usuarios/excluir')."?id=".$dado['id'].'" class="btn btn-danger" onclick="'.$vJavascript.'" >'
+                 '<a href="'.site_url('admin_control/usuarios/excluir')."?id=".$dado['id'].'" class="btn btn-danger" onclick="'.$vJavascript.'" >'
                 //  '<a  class="btn btn-danger" onclick="'.$vJavascript.'" >'
 
                  .'
                    <i class="fa fa-trash-o fa-lg"></i> Excluir</a>
                  </td>
                  <td>
-                   <a class="btn btn-primary" href="'.site_url('usuarios/editar').'?id='.$dado['id'].'">
+                   <a class="btn btn-primary" href="'.site_url('admin_control/usuarios/editar').'?id='.$dado['id'].'">
                      <i class="fa fa-pencil fa-lg"></i> Editar</a>
 
                  </td>

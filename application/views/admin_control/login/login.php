@@ -19,7 +19,7 @@
   <!-- <form  method="POST"action='<?=site_url('login') ?>'> -->
     <?php echo validation_errors();
 
-    echo form_open(site_url('login'),'class="form-signin"') ?>
+    echo form_open(site_url('/admin_control/login'),'class="form-signin"') ?>
     <h2 class="form-signin-heading">Por favor faça o login</h2>
     <label for="inputEmail" class="sr-only">Email ou usuário</label>
     <input type="text" id="inputEmail" class="form-control" placeholder="Email ou usuário" name="usuario" required autofocus>

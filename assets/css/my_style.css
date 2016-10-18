@@ -41,3 +41,8 @@ body > .container {
 code {
   font-size: 80%;
 }
+.nav-default {
+    background-color: #fff;
+    border-color: #fff;
+    background-color: black;
+}

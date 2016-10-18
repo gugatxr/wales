@@ -1,6 +1,6 @@
 <?php
 
-class Home_model extends CI_Model
+class Admin_control_model extends CI_Model
 {
   function __CONSTRUCT()
   {

@@ -8,7 +8,7 @@
           if (!$this->session->has_userdata('nome')) {
             unset($_COOKIE);
             $this->session->sess_destroy();
-            redirect('login');
+            redirect('admin_control/login');
           }else{
             $this->session->mark_as_temp(['nome' => 600, 'permissao' => 600]);
           }
@@ -28,9 +28,9 @@
         // exit();
 
 
-        $this->load->view('templates/', $data);
+        $this->load->view('templates/nav', $data);
         $this->load->view('templates/header', $data);
-        $this->load->view('usuarios/index', $data);
+        $this->load->view('admin_control/usuarios/index', $data);
         // $this->load->view('templates/footer');
       }
 
@@ -78,7 +78,9 @@
             if($this->form_validation->run() === false)
             {
               //recupera a lista de groupos de permissões
-              $data['permissoes'] = $this->aauth->list_groups();
+              $this->load->model('permissoes_model');
+
+              $data['permissoes'] = $this->permissoes->get_permissoes();
 
               $this->load->view('templates/header', $data);
               $this->load->view('usuarios/adicionar', $data);

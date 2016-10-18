@@ -6,7 +6,7 @@ class Fornecedores extends CI_Controller
         parent::__CONSTRUCT();
         // $this->load->model('home_model');
         if (!$this->aauth->is_loggedin()) {
-          redirect('login');
+          redirect('admin_control/login');
         }
     }
     public function index()

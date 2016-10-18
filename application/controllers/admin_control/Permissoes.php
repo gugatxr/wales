@@ -9,7 +9,7 @@
       if ($this->session->has_userdata('usuario')) {
         $this->session->mark_as_temp('usuario', 600);
       }else {
-        redirect('login');
+        redirect('admin_control/login');
       }
     }
     public function index()
@@ -59,6 +59,6 @@
       $this->load->view('permissoes/index', $data);
       $this->load->view('templates/footer');
     }
-    
+
 
   }
