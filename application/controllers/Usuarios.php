@@ -5,8 +5,12 @@
       {
           parent::__construct();
           $this->load->model('usuarios_model');
-          if (!$this->aauth->is_loggedin()) {
-            $this->session->mark_as_temp('usuario', 600);
+          if (!$this->session->has_userdata('nome')) {
+            unset($_COOKIE);
+            $this->session->sess_destroy();
+            redirect('login');
+          }else{
+            $this->session->mark_as_temp(['nome' => 600, 'permissao' => 600]);
           }
       }
       public function index()
@@ -24,6 +28,7 @@
         // exit();
 
 
+        $this->load->view('templates/', $data);
         $this->load->view('templates/header', $data);
         $this->load->view('usuarios/index', $data);
         // $this->load->view('templates/footer');

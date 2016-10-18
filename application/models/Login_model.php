@@ -2,6 +2,8 @@
 
 class Login_model extends CI_Model
 {
+  private $tabela = 'usuarios';
+  private $view = 'usuario';
   function __CONSTRUCT()
   {
     $this->load->database();
@@ -18,8 +20,6 @@ class Login_model extends CI_Model
       $query = $this->db->query($sql);
       $query = $query->result_array();
       $resultado = password_verify($senha, $query[0]['senha']);
-      // var_dump($resultado);
-      // exit();
       return $resultado;
   }
   function get_usuario_sessao()
@@ -35,7 +35,18 @@ class Login_model extends CI_Model
     $query = $query->result_array();
     return $query;
   }
-  function get_dados_depois_login($id_usuarios){
+  function get_dados_depois_login(){
+    $usuario = $this->input->post('usuario');
+
+    $this->db->where(['usuario' => $usuario]);
+    $this->db->select('nome, permissao');
+    $query = $this->db->get($this->view);
+    return $query->result_array();
+  }
+  FUNCTION inserir()
+  {
+    // var_dump(password_hash('admin', PASSWORD_DEFAULT));
+    // exit();
 
   }
 }

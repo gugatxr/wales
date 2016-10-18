@@ -50,7 +50,6 @@
     }
     public function excluir()
     {
-
       $data['title'] = 'Gerenciador permissões';
       $data['cabecalho'] = '<div class="page-header">
                               <h1>Gerenciamento <small> Permissões</small></h1>
@@ -59,7 +58,7 @@
       $this->load->view('templates/header', $data);
       $this->load->view('permissoes/index', $data);
       $this->load->view('templates/footer');
-
     }
+    
 
   }

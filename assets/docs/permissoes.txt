@@ -1,19 +1,9 @@
-8 - excluir
-4 - editar
-2 - inserir
-1 - visualizar
-0 - nenhuma
+table{select, delete, update, insert}
 
-1 + 2 + 4 + 8 = 15
-1 + 2 + 4     = 7
-1 + 2 + 8     = 11
-1 + 2         = 3
+TABLE,SELECT,INSERT,UPDATE,DELETE,|TABLE,SELECT,INSERT,UPDATE,DELETE,|TABLE,SELECT,INSERT,UPDATE,DELETE,|TABLE,SELECT,INSERT,UPDATE,DELETE,
+Exemplos
+fornecedores,1,1,0,1,|clientes,1,1,0,0,
 
-1 + 4 + 8     = 13
-1 + 4         = 5
 
-2 + 4 + 8     = 14
-2 + 4         = 6
-2 +
-4 + 8         = 12
-2 + 8         = 10
+0 = not acess or FALSE;
+1 = allowed OR TRUE;

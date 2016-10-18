@@ -2,18 +2,16 @@
 
 class Home extends CI_Controller
 {
-    public function __CONSTRUCT(){
+    public function __CONSTRUCT()
+    {
         parent::__CONSTRUCT();
-        $this->load->model('home_model');
-        if (!$this->aauth->is_loggedin()) {
-          redirect('login');
-        }
     }
     public function index()
     {
-        $data['title'] = 'iN informática';
+        $data['title'] = 'Loja Wales';
         $this->load->view('templates/header', $data);
-        $this->load->view('home/index', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/nav');
+        // $this->load->view('home', $data);
+        // $this->load->view('templates/footer');
     }
 }

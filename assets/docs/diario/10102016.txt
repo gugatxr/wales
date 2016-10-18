@@ -1,0 +1,4 @@
+Curso noite técnico
+
+Finalizado modelagem banco de dados.
+Inicio SQL e testes do mesmo
