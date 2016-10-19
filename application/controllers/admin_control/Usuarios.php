@@ -24,9 +24,6 @@
         // retorna os usuarios.
         // return array objeto
         $data['usuarios'] = $this->usuarios_model->get_usuarios();
-        // var_dump($data['usuarios']);
-        // exit();
-
 
         $this->load->view('templates/nav', $data);
         $this->load->view('templates/header', $data);
@@ -42,7 +39,7 @@
         }else
         {
             $id_usuario = $this->input->get_post('id');
-            $resultado  = $this->aauth->delete_user($id_usuario);
+            $resultado  = $this->usuarios_model->delete();
             if($resultado === TRUE)
             {
               $data['excluir'] = '<div class="alert alert-success " role="alert">Excluído com sucesso</div>';
@@ -60,7 +57,8 @@
         $data['title'] = 'Gerenciador usuários';
         $data['usuarios'] = $this->usuarios_model->get_usuarios();
         $this->load->view('templates/header', $data);
-        $this->load->view('usuarios/index', $data);
+        $this->load->view('templates/nav', $data);
+        $this->load->view('admin_control/usuarios/index', $data);
         $this->load->view('templates/footer');
       }
 
@@ -80,20 +78,17 @@
               //recupera a lista de groupos de permissões
               $this->load->model('permissoes_model');
 
-              $data['permissoes'] = $this->permissoes->get_permissoes();
-
+              $data['permissoes'] = $this->usuarios_model->get_permissoes();
               $this->load->view('templates/header', $data);
-              $this->load->view('usuarios/adicionar', $data);
+              $this->load->view('admin_control/usuarios/adicionar', $data);
               $this->load->view('templates/footer');
             }else
             {
                 //recupera a lista de groupos de permissões
-                $data['permissoes'] = $this->aauth->list_groups();
-
-                $this->usuarios_model->set_usuarios();
+                $data['permissoes'] = $this->usuarios_model->set_usuario();
 
                 $this->load->view('templates/header', $data);
-                $this->load->view('usuarios/adicionar');
+                $this->load->view('admin_control/usuarios/adicionar');
                 $this->load->view('templates/footer');
           }
 
@@ -109,7 +104,7 @@
           if($this->input->get('id'))
           {
             $data['permissoes'] = $this->usuarios_model->get_permissoes();
-            $data['usuario'] = $this->usuarios_model->get_one_usuario();
+            $data['usuario'] = $this->usuarios_model->select_one_usuario();
           }
 
           $this->form_validation->set_rules('nome', 'Nome', 'required');
@@ -119,14 +114,15 @@
 
           if($this->form_validation->run() === false)
           {
-            $data['usuario'] = $this->usuarios_model->get_one_usuario();
+            $data['usuario'] = $this->usuarios_model->select_one_usuario();
+
             $this->load->view('templates/header', $data);
-            $this->load->view('usuarios/editar');
+            $this->load->view('admin_control/usuarios/editar');
             $this->load->view('templates/footer');
           }else
           {
               $this->usuarios_model->edita_usuario();
-              redirect('usuarios/index');
+              redirect('admin_control/usuarios/index');
         }
       }
   }

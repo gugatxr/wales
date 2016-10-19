@@ -1,60 +1,76 @@
 <?php
 
-  class Usuarios_model extends CI_Model
-  {
+  class Usuarios_model extends CI_Model{
+    private $tabela = 'usuarios';
+    private $tabela_permissao = 'permissoes';
+
     public function __construct(){
       $this->load->database();
     }
     public function get_usuarios($usuario = FALSE){
-      $query = $this->db->query('SELECT u.id, u.email, u.usuario, p.descricao as permissao FROM usuarios u
-              INNER JOIN permissoes p ON (p.id=u.id_permissao)  ');
+      $this->db->select('u.id, u.email, u.usuario, u.nome, p.descricao as permissao');
+      $this->db->from('usuarios u');
+      $this->db->join('permissoes p', 'u.id_permissao=p.id', 'inner');
+      $query = $this->db->get();
+
       return $query->result_array();
     }
-    public function get_one_usuario(){
-      $query = $this->db->query('SELECT u.id, u.email, u.username as nome, p.name as permissao FROM aauth_users u
-              INNER JOIN aauth_user_to_group g ON (u.id= g.user_id)
-              INNER JOIN aauth_groups p ON (p.id=g.group_id)
-        WHERE u.id = '.$this->input->get_post('id'));
+    public function select_one_usuario(){
+      $this->db->select('u.id, u.email, u.usuario, u.nome, p.descricao as permissao, p.id as id_permissao');
+      $this->db->from('usuarios u');
+      $this->db->join('permissoes p', 'u.id_permissao=p.id', 'inner');
+      $this->db->where('u.id',$this->input->get('id'));
+      $query = $this->db->get();
       return $query->result_array();
     }
-    public function set_usuarios(){
+    public function set_usuario(){
       //função para criar usuario
       // @var email string,
       // @par senha string,
       // @par nome string
-      $email      = $this->input->post('email');
-      $senha      = $this->input->post('senha');
-      $nome       = $this->input->post('nome');
-      $id_usuario = $this->aauth->create_user($email, $senha, $nome);
-
-      //addiciona usuario a um grupo de permissoes
-      //add_member($id_usuario, $id ou nome do grupo);
-      //retorna true ou falsa
-      $id_permissao = $this->input->post('permissao');
-      $resultado    = $this->aauth->add_member($id_usuario, $id_permissao);
-
-      return $id_usuario;
+      $dados = array(
+        'nome'          => ucfirst($this->input->post('nome')),
+        'usuario'       => strtolower($this->input->post('usuario')),
+        'email'         => $this->input->post('email'),
+        'senha'         => password_hash($this->input->post('senha'), PASSWORD_DEFAULT),
+        'id_permissao'  => $this->input->post('permissao')
+      );
+      $resultado = $this->db->insert($this->tabela, $dados);
+      return $resultado;
     }
     public function edita_usuario(){
       if($this->input->post('senha') === '')
       {
         $data = array(
-          'nome' => $this->input->post('nome'),
+          'nome' => ucfirst($this->input->post('nome')),
           'usuario' => $this->input->post('usuario'),
           'email' => $this->input->post('email'),
-          'id_permissoes' => $this->input->post('id_permissoes')
+          'id_permissao' => $this->input->post('id_permissoes')
         );
 
-      }else {
+      }else{
         $data = array(
-          'nome' => $this->input->post('nome'),
+          'nome' => ucfirst($this->input->post('nome')),
           'usuario' => $this->input->post('usuario'),
           'email' => $this->input->post('email'),
           'senha' => $this->input->post('senha'),
-          'id_permissoes' => $this->input->post('id_permissoes'),
+          'id_permissao' => $this->input->post('id_permissoes'),
         );
       }
       $this->db->where('id', $this->input->post('id_usuario'));
-      $this->db->update('usuarios', $data);
+      $retorno = $this->db->update('usuarios', $data);
+      // var_dump($retorno);
+      // exit;
+      return $returno;
+
+    }
+    function delete(){
+      $resultado = $this->db->delete($this->tabela, ['id' => $this->input->get('id')]);
+      return $resultado;
+    }
+    function get_permissoes(){
+      $this->db->select('id, descricao');
+      $query = $this->db->get($this->tabela_permissao);
+      return $query->result();
     }
   }

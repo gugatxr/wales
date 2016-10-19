@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li><a><?=date("d/m/Y") ?></a></li>
               <li><a ><?=$this->session->nome ?></a></li>
-              <li><a href="<?=base_url('index.php/login/logout')?>">Sair</a></li>
+              <li><a href="<?=site_url('admin_control/login/logout')?>">Sair</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
