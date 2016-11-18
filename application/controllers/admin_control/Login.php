@@ -1,15 +1,13 @@
 <?php
-class Login extends CI_Controller
+class Login extends MY_Login
 {
     public function __CONSTRUCT(){
         parent::__CONSTRUCT();
-        $this->load->model('login_model');
-
+        $this->load->model('admin_control/login_model');
+        $this->data['title'] = 'Wales';
     }
     public function index()
     {
-        $data['title'] = 'iN informática';
-
         $this->load->helper('form');
         $this->load->library('form_validation');
 
@@ -21,22 +19,26 @@ class Login extends CI_Controller
             if($this->login_model->valida_login()){
 
               $dados = $this->login_model->get_dados_depois_login();
-              $this->session->nome = $dados[0]['nome'];
-              $this->session->permissao = $this->tratar_permissao($dados[0]['permissao']);
+              $dados_gravar_sessao = array(
+                'permissao' => $this->tratar_permissao($dados[0]['permissao']),
+                'nome'      => $dados[0]['nome']);
+              $this->session->set_userdata($dados_gravar_sessao);
               redirect('admin_control');
             }else
             {
-              $data['resultado'] = '<div class="alert alert-danger" role="alert">Usuário ou senha incorretos</div>';
-              $this->load->view('templates/header', $data);
-              $this->load->view('admin_control/login/login', $data);
-              $this->load->view('templates/footer');
+              $this->data['resultado'] = '<div class="alert alert-danger" role="alert">Usuário ou senha incorretos</div>';
+              $this->load->view('admin_control/templates/header', $this->data);
+              $this->load->view('admin_control/templates/nav', $this->data);
+              $this->load->view('admin_control/login/login', $this->data);
+              $this->load->view('admin_control/templates/footer');
             }
         //carrega a tela de login
         }else
         {
-          $this->load->view('templates/header', $data);
-          $this->load->view('admin_control/login/login', $data);
-          $this->load->view('templates/footer');
+          $this->load->view('admin_control/templates/header', $this->data);
+          $this->load->view('admin_control/templates/nav', $this->data);
+          $this->load->view('admin_control/login/login', $this->data);
+          $this->load->view('admin_control/templates/footer');
         }
     }
     function logout(){

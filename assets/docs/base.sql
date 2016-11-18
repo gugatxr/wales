@@ -171,6 +171,15 @@ CREATE TABLE IF NOT EXISTS especies (
   PRIMARY KEY (id)
 )DEFAULT CHARACTER SET = utf8;
 
+CREATE TABLE IF NOT EXISTS fotos(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nome_aquivo VARCHAR(50),
+    descricao VARCHAR(50),
+    id_produto INT UNSIGNED,
+    ordem TINYINT,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_fotos_produtos FOREIGN KEY (id_produto) REFERENCES produtos (id)
+)DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Tabela produtos
 -- -----------------------------------------------------
@@ -179,10 +188,12 @@ CREATE TABLE IF NOT EXISTS produtos (
   descricao VARCHAR(50) UNIQUE KEY,
   vlr_compra DECIMAL(9,2),
   vlr_venda DECIMAL(9,2),
-  codigo_barras VARCHAR(70) UNIQUE KEY,
+  codigo_barras VARCHAR(70),
   id_especie INT UNSIGNED,
   id_marca INT UNSIGNED NULL,
   quantidade INT NULL,
+  mostra_loja BOOL,
+  descricao TEXT,
   PRIMARY KEY (id),
   CONSTRAINT fk_produtos_marca FOREIGN KEY (id_marca) REFERENCES marcas (id),
   CONSTRAINT fk_produtos_especie FOREIGN KEY (id_especie) REFERENCES especies (id)
@@ -252,13 +263,17 @@ CREATE TABLE IF NOT EXISTS usuarios(
 )DEFAULT CHARACTER SET = utf8;
 
 
--- Cria a view fornecedores
-CREATE VIEW fornecedores AS SELECT * FROM pessoas WHERE id_tipo = 1;
+-- CREATE TABLE configuracoes(
+-- 	id 
+-- );
+
+
+
 CREATE VIEW cliente AS SELECT * FROM pessoas WHERE id_tipo = 2;
 CREATE VIEW funcionario AS SELECT * FROM pessoas WHERE id_tipo = 3;
 
--- view com a tabela pessoas já relacionada
-CREATE VIEW pessoas_finais AS SELECT p.id, p.nome, p.cpf, p.cnpj, p.rg, tp.descricao as tipo_logradouro, l.descricao as logradouro, e.descricao as estado, p.numero,
+-- Cria a view fornecedores
+CREATE VIEW fornecedores AS SELECT p.id, p.nome, p.cpf, p.cnpj, p.rg, tp.descricao as tipo_logradouro, l.descricao as logradouro, e.descricao as estado, p.numero,
  p.complemento, b.descricao as bairro, c.descricao as cidade, c.descricao as cep,
 p.telefone, p.email, DATE_FORMAT(p.dt_nascimento, '%e/%c/%Y') as data, t.descricao as tipo, p.observacao FROM pessoas p
 INNER JOIN tipo_logradouros tp ON (p.id_tipo_logradouros=tp.id)
@@ -266,7 +281,17 @@ INNER JOIN logradouros l ON (p.id_logradouro = l.id)
 INNER JOIN bairros b ON (b.id=p.id_bairro)
 INNER JOIN cidades c ON (c.id=p.id_cidade)
 INNER JOIN estados e ON (e.id=p.id_estado)
-INNER JOIN tipos t ON (t.id=p.id_tipo);
+INNER JOIN tipos t ON (t.id=p.id_tipo) WHERE p.id_tipo = 1;
+
+-- view com a tabela pessoas já relacionada
+CREATE VIEW fornecedores AS SELECT p.id, p.nome, p.cpf, p.cnpj, p.rg,
+concat(tp.abreviacao,', ', l.descricao,' ',p.complemento,' ',p.numero,', ',b.descricao,', ',c.descricao,' - ',e.sigla,' ',c.descricao) as endereco, 
+p.telefone, p.email, DATE_FORMAT(p.dt_nascimento, '%e/%c/%Y') as data, p.observacao FROM pessoas p
+INNER JOIN tipo_logradouros tp ON (p.id_tipo_logradouros=tp.id)
+INNER JOIN logradouros l ON (p.id_logradouro = l.id)
+INNER JOIN bairros b ON (b.id=p.id_bairro)
+INNER JOIN cidades c ON (c.id=p.id_cidade)
+INNER JOIN estados e ON (e.id=p.id_estado);
 
 
 
@@ -289,3 +314,4 @@ INSERT INTO tipo_logradouros (descricao) VALUES ('Aeroporto'),('Alameda'),('Áre
 INSERT INTO estados(descricao, sigla) VALUES ("Acre","AC") , ("Alagoas","AL") , ("Amapá","AP") , ("Amazonas","AM") , ("Bahia","BA") , ("Ceará","CE") , ("Distrito Federal","DF") , ("Espírito Santo","ES") , ("Goiás","GO") , ("Maranhão","MA") , ("Mato Grosso","MT") , ("Mato Grosso do Sul","MS") , ("Minas Gerais","MG") , ("Pará","PA") , ("Paraíba","PB") , ("Paraná","PR") , ("Pernambuco","PE") , ("Piauí","PI") , ("Rio de Janeiro","RJ") , ("Rio Grande do Norte","RN") , ("Rio Grande do Sul","RS") , ("Rondônia","RO") , ("Roraima","RR") , ("Santa Catarina","SC") , ("São Paulo","SP") , ("Sergipe","SE");
 INSERT INTO cidades (descricao) VALUES ('Tramandaí');
 INSERT INTO tipos VALUES (1,'Fornecedores'), (2,'Clientes'), (3,'Funcionário');
+insert into especies value (1, 'produtos');

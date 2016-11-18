@@ -1,9 +1,10 @@
 <div class="container">
+  <?=$resultado_inserir ?>
   <div class="row">
     <div class="col-sm-1">
       <a class="btn btn-primary" href="<?=site_url('admin_control/usuarios'); ?>" ><i class="fa fa-chevron-left  fa-lg" ></i> Voltar</a>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-5">
       <?php echo validation_errors();
       echo form_open(site_url('admin_control/usuarios/adicionar')) ?>
 
@@ -23,7 +24,7 @@
       </div>
       <br>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-5 ">
 
         <div class="form-group">
           <label for="email">Email:</label>

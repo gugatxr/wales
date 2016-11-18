@@ -1,9 +1,9 @@
 <?php
 
-  class Permissoes extends CI_Controller{
+  class Permissoes extends MY_Controller{
     function __CONSTRUCT(){
       parent::__CONSTRUCT();
-      $this->load->model('permissoes_model');
+      $this->load->model('admin_control/permissoes_model');
       $this->load->helper('url');
       $this->load->library(['session', 'permissoes']);
       if ($this->session->has_userdata('usuario')) {
@@ -20,9 +20,9 @@
                               </div>';
         $data['permissoes'] = $this->permissoes_model->get_permissoes();
 
-        $this->load->view('templates/header', $data);
+        $this->load->view('admin_control/templates/header', $data);
         $this->load->view('permissoes/index', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('admin_control/templates/footer');
 
     }
     function inserir(){
@@ -37,15 +37,15 @@
       if($this->input->post('descricao') === null)
       {
         // var_dump($this->input->post('descricao'));
-          $this->load->view('templates/header', $data);
+          $this->load->view('admin_control/templates/header', $data);
           $this->load->view('permissoes/inserir', $data);
-          $this->load->view('templates/footer');
+          $this->load->view('admin_control/templates/footer');
       }else
       {
           $this->permissoes_model->inserir();
-          $this->load->view('templates/header', $data);
+          $this->load->view('admin_control/templates/header', $data);
           $this->load->view('permissoes/index', $data);
-          $this->load->view('templates/footer');
+          $this->load->view('admin_control/templates/footer');
       }
     }
     public function excluir()
@@ -55,9 +55,9 @@
                               <h1>Gerenciamento <small> Permissões</small></h1>
                             </div>';
       $this->pemrissoes_model->exluir();
-      $this->load->view('templates/header', $data);
+      $this->load->view('admin_control/templates/header', $data);
       $this->load->view('permissoes/index', $data);
-      $this->load->view('templates/footer');
+      $this->load->view('admin_control/templates/footer');
     }
 
 
