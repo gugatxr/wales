@@ -48,6 +48,7 @@
           } ?>
         </select>
         <br>
+
         <label>Exibe na loja virtual:</label>
         <div class="radio">
           <?php if($dados_produto[0]->mostra_loja === '1'){ ?>
@@ -62,6 +63,9 @@
         <br>
         <div class="btn-group btn-group-lg" role="group" aria-label="cadastrar">
           <button class="btn btn-lg btn-primary btn-block" type="submit">Editar</button>
+        </div>
+        <div class="btn-group btn-group-lg" role="group" aria-label="cadastrar">
+          <a class="btn btn-lg btn-primary btn-block" href="<?=site_url('admin_control/produtos/adicionar_fotos')?>">Adicionar fotos produtos</a>
         </div>
       </div>
     </div>

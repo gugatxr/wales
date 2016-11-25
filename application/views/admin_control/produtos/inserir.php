@@ -50,6 +50,7 @@
           <label><input name="mostra_loja" type="radio" id="mostra_loja" value="1">Sim</label>
           <label><input name="mostra_loja" type="radio" id="mostra_loja" value="0" checked="">Não</label>
         </div>
+        
 
         <br>
         <div class="btn-group btn-group-lg" role="group" aria-label="cadastrar">

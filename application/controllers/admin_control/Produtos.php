@@ -6,6 +6,8 @@ class Produtos extends MY_Controller
     {
         parent::__CONSTRUCT();
         $this->load->model('admin_control/produtos_model');
+        $this->load->helper('form');
+
     }
     public function index()
     {
@@ -57,6 +59,7 @@ class Produtos extends MY_Controller
         $this->form_validation->set_rules('descricao', 'Descrição', 'required');
         $this->form_validation->set_rules('vlr_venda', 'Valor de venda', 'required');
         $id = $this->uri->segment('4', 0);
+
         $this->data['dados_produto'] = $this->produtos_model->get_one_produto($id);
         $this->data['marcas'] = $this->produtos_model->get_marcas();
 
@@ -94,5 +97,43 @@ class Produtos extends MY_Controller
       $this->load->view('admin_control/templates/nav', $this->data);
       $this->load->view('admin_control/produtos/pesquisa', $this->data);
       $this->load->view('admin_control/templates/footer');
+    }
+    public function fotos()
+    {
+      $this->data['title']    = 'Adicionar Foto | Produtos';
+      $id = $this->uri->segment('4', 0);
+
+      $this->data['error'] = ' ';
+
+      $this->data['dados_produto'] = $this->produtos_model->get_one_produto($id);
+
+      // $this->load->view('admin_control/templates/header', $this->data);
+      // $this->load->view('admin_control/templates/nav');
+      $this->load->view('admin_control/produtos/foto', $this->data);
+      // $this->load->view('admin_control/templates/footer');
+    }
+    public function add_foto()
+    {
+
+      $config['upload_path']          = base_url('assets/img/produtos');
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 100;
+                $config['max_width']            = 1024;
+                $config['max_height']           = 768;
+
+                $this->load->library('upload', $config);
+
+                if ( ! $this->upload->do_upload('userfile'))
+                {
+                        $error = array('error' => $this->upload->display_errors());
+
+                        $this->load->view('admin_control/produtos/foto', $error);
+                }
+                else
+                {
+                        $data = array('upload_data' => $this->upload->data());
+
+                        $this->load->view('admin_control/produtos/add_foto', $data);
+                }
     }
 }

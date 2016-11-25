@@ -63,7 +63,7 @@
       <div class="col-md-4">
           <div class="form-group">
             <label for="cnpj">CNPJ:</label>
-            <input name="cnpj" type="text" class="form-control" id="cnpj">
+            <input name="cnpj" type="text" class="form-control" id="cnpj" >
           </div>
 
           <div class="form-group">
