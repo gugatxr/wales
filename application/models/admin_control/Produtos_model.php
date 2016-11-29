@@ -15,7 +15,7 @@
     }
     public function get_produtos_basico()
     {
-      $this->db->select("id, descricao, vlr_venda, quantidade,REPLACE(REPLACE(mostra_loja, 0, 'Não'), 1, 'Sim') as mostra_loja");
+      $this->db->select("id, descricao, vlr_venda, quantidade, REPLACE(REPLACE(mostra_loja, 0, 'Não'), 1, 'Sim') as mostra_loja");
       $query = $this->db->get($this->tabela);
       return $query->result();
     }
@@ -33,8 +33,9 @@
     // retorna os produtos para serem exibidos na area
     public function get_produtos_vitrine()
     {
-      $this->db->select('p.id, p.descricao, m.descricao as marca ,p.vlr_venda as valor ');
+      $this->db->select('p.id, p.descricao, m.descricao as marca ,p.vlr_venda as valor, f.nome_arquivo');
       $this->db->join('marcas m', 'p.id_marca=m.id');
+      $this->db->join('fotos f', 'p.id=f.id_produto', 'left');
       $this->db->where(['mostra_loja' => 1]);
       $query = $this->db->get('produtos p');
       // var_dump($this->db);
@@ -79,6 +80,11 @@
       $this->db->like('descricao', "$nome_produto");
       $resultado = $this->db->get($this->tabela);
       return $resultado->result();
+    }
+    public function add_foto($dados)
+    {
+      $resultado = $this->db->insert('fotos', $dados);
+      return $resultado;
     }
 }
 

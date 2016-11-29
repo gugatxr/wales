@@ -100,22 +100,49 @@ class Produtos extends MY_Controller
     }
     public function fotos()
     {
-      $this->data['title']    = 'Adicionar Foto | Produtos';
-      $id = $this->uri->segment('4', 0);
+      $this->data['title']            = 'Adicionar Foto | Produtos';
+      $config['upload_path']          = './assets/img/produtos';
+      $config['allowed_types']        = 'gif|jpg|png';
+      $config['max_size']             = 1000;
+      $config['max_width']            = 2000;
+      $config['max_height']           = 1500;
 
-      $this->data['error'] = ' ';
+      $this->load->library('upload', $config);
 
-      $this->data['dados_produto'] = $this->produtos_model->get_one_produto($id);
+      $this->data['id'] = $this->uri->segment('4', 0);
+      $this->data['error'] = '';
 
-      // $this->load->view('admin_control/templates/header', $this->data);
-      // $this->load->view('admin_control/templates/nav');
-      $this->load->view('admin_control/produtos/foto', $this->data);
-      // $this->load->view('admin_control/templates/footer');
+      $this->data['dados_produto'] = $this->produtos_model->get_one_produto($this->data['id']);
+
+
+      if ( ! $this->upload->do_upload('userfile'))
+      {
+              $error = array('error' => $this->upload->display_errors());
+              $this->load->view('admin_control/templates/header', $this->data);
+              $this->load->view('admin_control/templates/nav');
+              $this->load->view('admin_control/produtos/foto', $error);
+              $this->load->view('admin_control/templates/footer');
+      }
+      else
+      {
+              $this->data['upload_data'] = $this->upload->data();
+
+              $dados = array(
+                'nome_arquivo'  => $this->data['upload_data']['file_name'],
+                'descricao'     => $this->input->post('descricao'),
+                'id_produto'    => $this->data['id']
+              );
+
+              $this->load->view('admin_control/templates/header', $this->data);
+              $this->load->view('admin_control/templates/nav');
+              $this->load->view('admin_control/produtos/adicionar_fotos', $this->data);
+              $this->load->view('admin_control/templates/footer');
+      }
     }
-    public function add_foto()
+    public function adicionar_fotos()
     {
-
-      $config['upload_path']          = base_url('assets/img/produtos');
+                $this->data['title']            = ' Produtos|Wales';
+                $config['upload_path']          = './assets/img/produtos';
                 $config['allowed_types']        = 'gif|jpg|png';
                 $config['max_size']             = 100;
                 $config['max_width']            = 1024;
@@ -126,14 +153,19 @@ class Produtos extends MY_Controller
                 if ( ! $this->upload->do_upload('userfile'))
                 {
                         $error = array('error' => $this->upload->display_errors());
-
+                        $this->load->view('admin_control/templates/header', $this->data);
+                        $this->load->view('admin_control/templates/nav');
                         $this->load->view('admin_control/produtos/foto', $error);
+                        $this->load->view('admin_control/templates/footer');
                 }
                 else
                 {
                         $data = array('upload_data' => $this->upload->data());
 
-                        $this->load->view('admin_control/produtos/add_foto', $data);
+                        $this->load->view('admin_control/templates/header', $this->data);
+                        $this->load->view('admin_control/templates/nav');
+                        $this->load->view('admin_control/produtos/fotos', $data);
+                        $this->load->view('admin_control/templates/footer');
                 }
     }
 }

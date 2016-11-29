@@ -9,7 +9,7 @@
     function get_marcas()
     {
       $resultado = $this->db->get($this->tabela);
-      return $resultado->result_array();
+      return $resultado->result();
     }
     function get_one($id)
     {

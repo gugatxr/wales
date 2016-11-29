@@ -1,11 +1,20 @@
-<?php echo $error;?>
+<div class="container">
 
-<?php echo form_open_multipart('admin_control/produtos/add_foto');?>
 
-<input type="file" name="userfile" size="20" />
 
-<br /><br />
+  <?php echo $error;?>
 
-<input type="submit" value="upload" />
+    <?php echo form_open_multipart('admin_control/produtos/fotos/'.$id);?>
 
-</form>
+      <input type="file" name="userfile" size="20" />
+
+      <br><br>
+      <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input name="descricao" type="text" class="form-control" id="descricao">
+      </div>
+      <input class="btn btn-default" type="submit" value="Enviar" />
+      <a href="<?=site_url('admin_control')?>" class="btn btn-info">Home</a>
+    </form>
+
+</div>

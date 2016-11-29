@@ -25,7 +25,7 @@
               <?=$produto['marca'] ?>
             </td>
             <td>
-              <?=$produto['valor'] ?>
+              R$ <?=$produto['valor'] ?>
             </td>
             <td>
               <a class="btn btn-danger" href="<?=site_url("carrinho/remover_carrinho/{$produto['array_id']}") ?>">Remover</a>
@@ -33,8 +33,8 @@
           </tr>
         <?php endforeach?>
         <tr>
-          <td colspan="2">Total</td>
-          <td><?=$valor_total_carrinho ?></td>
+          <td colspan="3"><a class="btn btn-info" href="<?=site_url("carrinho/gerar_boleto") ?>">Gerar Boleto</a></td>
+          <td >Total: R$ <?=$valor_total_carrinho ?></td>
         </tr>
       </tbody>
     </table>

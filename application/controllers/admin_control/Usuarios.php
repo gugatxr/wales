@@ -68,7 +68,6 @@
             $this->form_validation->set_rules('senha', 'Senha', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('permissao', 'Permissão', 'required');
-            $this->ativa_debugbar;
             $this->data['resultado_inserir'] = '';
             if($this->form_validation->run() === false)
             {
